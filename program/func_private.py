@@ -86,7 +86,7 @@ def abort_all_positions(client):
             close_orders.append(order)
 
             # Protect API
-            time.sleep(0.5)
+            time.sleep(0.2)
 
         # Return closed orders
         return close_orders
