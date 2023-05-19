@@ -1,3 +1,4 @@
 .env
 venv
 cointegrated_pairs.csv
+bot_agents.json

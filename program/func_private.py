@@ -55,6 +55,8 @@ def place_market_order(client, market, side, size, price, reduce_only):
         reduce_only=reduce_only
     )
 
+    # print(placed_order.data)
+
     # Return result
     return placed_order.data
 
