@@ -11,9 +11,8 @@ from func_messaging import send_message
 # MAIN FUNCTION
 if __name__ == "__main__":
 
-    success = send_message("This is an amazing first trading bot!")
-    print(success)
-    exit(1)
+    # Message on start
+    send_message("Coint_BotAgent started!")
 
     # Connect to client
     try:
@@ -21,6 +20,10 @@ if __name__ == "__main__":
         client = connect_dydx()
     except Exception as e:
         print("Error connecting to Client: ", e)
+
+        # Send Message
+        send_message(f"Failed to connect to client! {e}")
+        
         exit(1)
 
     # Abort all open positions
@@ -30,6 +33,10 @@ if __name__ == "__main__":
             close_orders = abort_all_positions(client)
         except Exception as e:
             print("Error closing all positions: ", e)
+
+            # Send Message
+            send_message(f"Failed to close all positions! {e}")
+
             exit(1)
 
     # Find Cointegrated Pairs
@@ -41,6 +48,10 @@ if __name__ == "__main__":
             df_market_prices = construct_market_prices(client)
         except Exception as e:
             print("Error constructing market prices: ", e)
+            
+            # Send Message
+            send_message(f"Error constructing market prices! {e}")
+
             exit(1)
 
         # Store Cointegrated Pairs
@@ -49,9 +60,17 @@ if __name__ == "__main__":
             store_result = store_cointegration_results(df_market_prices)
             if store_result != "saved":
                 print("Error saving cointegrated pairs")
+                
+                # Send Message
+                send_message(f"Error saving cointegrated pairs!")
+
                 exit(1)
         except Exception as e:
             print("Error saving cointegrated pairs: ", e)
+            
+            # Send Message
+            send_message(f"Error saving cointegrated pairs! {e}")
+
             exit(1)
 
     # Run as always on
@@ -64,6 +83,10 @@ if __name__ == "__main__":
                 manage_trade_exits(client)
             except Exception as e:
                 print("Error managing exiting positions: ", e)
+                            
+                # Send Message
+                send_message(f"Error managing exiting positions: {e}")
+
                 exit(1)
 
         # Place trades for opening positions
@@ -73,4 +96,8 @@ if __name__ == "__main__":
                 open_positions(client)
             except Exception as e:
                 print("Error trading pairs: ", e)
+                            
+                # Send Message
+                send_message(f"Error trading pairs: {e}")
+
                 exit(1)
